@@ -20,7 +20,7 @@ class LinkedList
   end
 
   def append(value)
-    node = Node(value)
+    node = Node.new(value)
     @size += 1
     if @tail.nil?
       @tail = node
@@ -33,7 +33,7 @@ class LinkedList
   end
 
   def prepend(value)
-    node = Node(value)
+    node = Node.new(value)
     @size += 1
     if @head.nil?
       @head = node
@@ -116,7 +116,7 @@ class LinkedList
     else
       place = at(index)
       previous = place.prev
-      node = Node(value)
+      node = Node.new(value)
 
       previous.next = node
       node.next = place
@@ -129,17 +129,16 @@ class LinkedList
   def remove_at(index)
     return nil if index.negative? || index >= size
 
-    @size -= 1
     if index.zero?
       @head = @head.next
-      if size.zero?
+      if size == 1
         @tail = nil
       else
         @head.prev = nil
       end
     elsif index == size - 1
       @tail = @tail.prev
-      if size.zero?
+      if size == 1
         @head = nil
       else
         @tail.next = nil
@@ -150,16 +149,16 @@ class LinkedList
       nxt = current.next
       previous.next = nxt
       nxt.prev = previous
-      current.next = nil
-      current.prev = nil
     end
+    @size -= 1
+    nil
   end
 
   def to_s
     current = @head
     array = []
     until current.nil?
-      array << "( #{current.val}) -> "
+      array << "( #{current.val} ) -> "
       current = current.next
     end
     array << 'nil'
